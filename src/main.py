@@ -1,13 +1,13 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 from typing import List, Optional
 import shutil
 from pathlib import Path
-
 # Импортируем наши написанные модули
 from src.parser.xml_parser import parse_twb
 from src.transformer.modifier import modify_dashboard_styles
+from src.utils.formatter import generate_tree_text
 
 app = FastAPI(title="Tableau Style Manager API")
 
@@ -23,6 +23,36 @@ class ModifyRequest(BaseModel):
     inner_padding: Optional[int] = Field(None, description="Inner Padding")
     outer_padding: Optional[int] = Field(None, description="Outer Padding")
 
+@app.post("/upload_text", response_class=PlainTextResponse)
+async def upload_file_text_view(file: UploadFile = File(...)):
+    """
+    Принимает .twb файл и возвращает текстовое дерево с комментариями параметров.
+    """
+    if not file.filename.endswith('.twb'):
+        raise HTTPException(status_code=400, detail="Только файлы .twb поддерживаются")
+        
+    file_path = TEMP_DIR / file.filename
+    
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+        
+    try:
+        dashboards_hierarchy = parse_twb(str(file_path))
+        
+        # Формируем итоговый текстовый документ
+        text_output = f"Файл: {file.filename}\n"
+        text_output += "=" * 80 + "\n\n"
+        
+        for dash_name, root_node in dashboards_hierarchy.items():
+            text_output += f"Dashboard: {dash_name}\n"
+            text_output += generate_tree_text(root_node)
+            text_output += "\n" + "-" * 80 + "\n\n"
+            
+        return text_output
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ошибка парсинга файла: {str(e)}")
+    
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     """Принимает .twb файл, сохраняет его и возвращает древовидную иерархию дашбордов."""
