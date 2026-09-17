@@ -22,6 +22,7 @@ class ModifyRequest(BaseModel):
     zone_ids: List[str] = Field(..., description="Список ID контейнеров")
     inner_padding: Optional[int] = Field(None, description="Inner Padding")
     outer_padding: Optional[int] = Field(None, description="Outer Padding")
+    corner_radius: Optional[int] = Field(None, description="Corner Radius")
 
 @app.post("/upload_text", response_class=PlainTextResponse)
 async def upload_file_text_view(file: UploadFile = File(...)):
@@ -93,7 +94,8 @@ async def modify_file(request: ModifyRequest):
         dashboard_name=request.dashboard_name,
         zone_ids=request.zone_ids,
         inner_pad=request.inner_padding,
-        outer_pad=request.outer_padding
+        outer_pad=request.outer_padding,
+        corner_radius=request.corner_radius
     )
     
     # Возвращаем файл пользователю как вложение для скачивания

@@ -2,16 +2,23 @@ from lxml import etree
 from pathlib import Path
 
 def _set_format_attr(zone_style, attr_name: str, value: str):
-    """Ищет атрибут в <zone-style> и обновляет его. Если нет — создает новый."""
-    for fmt in zone_style.findall('format'):
+    # Ищет атрибут в <zone-style> и обновляет его. Если нет — создает новый.
+    # 1. Проходим по всем вложенным тегам внутри zone_style
+    for fmt in zone_style:
         if fmt.get('attr') == attr_name:
             fmt.set('value', value)
             return
-    
-    # Если тега <format> с таким атрибутом нет, создаем его
-    etree.SubElement(zone_style, 'format', attr=attr_name, value=value)
+        
+    # 2. Если атрибут не найден, определяем правильное имя тега для создания
+    if attr_name == 'corner-radius':
+        tag_name = '_.fcp.DashboardRoundedCorners.true...format'
+    else:
+        tag_name = 'format'
+        
+    # 3. Создаем нужный тег
+    etree.SubElement(zone_style, tag_name, attr=attr_name, value=value)
 
-def modify_dashboard_styles(input_file_path: str, output_file_path: str, dashboard_name: str, zone_ids: list[str], inner_pad: int = None, outer_pad: int = None):
+def modify_dashboard_styles(input_file_path: str, output_file_path: str, dashboard_name: str, zone_ids: list[str], inner_pad: int = None, outer_pad: int = None, corner_radius: int = None):
     tree = etree.parse(input_file_path)
     root = tree.getroot()
     modified_count = 0
@@ -35,6 +42,9 @@ def modify_dashboard_styles(input_file_path: str, output_file_path: str, dashboa
                 
                 if outer_pad is not None:
                     _set_format_attr(zone_style, 'margin', str(outer_pad))
+
+                if corner_radius is not None:
+                    _set_format_attr(zone_style, 'corner-radius', str(corner_radius))
                     
                 modified_count += 1
 
@@ -59,7 +69,8 @@ if __name__ == "__main__":
             dashboard_name=target_dashboard,
             zone_ids=test_zones, 
             inner_pad=40,  # Ставим Inner Padding в 40
-            outer_pad=20  # Ставим Outer Padding в 20
+            outer_pad=20,  # Ставим Outer Padding в 20
+            corner_radius=15  # Ставим Corner Radius в 15
         )
         print(f"Успешно изменено контейнеров: {changed} на листе '{target_dashboard}'.")
         print(f"Файл сохранен как {output_twb.name}")

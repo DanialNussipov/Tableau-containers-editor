@@ -8,14 +8,13 @@ def parse_zone(zone_element, parent_id=None):
     zone_id = zone_element.get('id')
     zone_type = zone_element.get('type-v2')
     name = zone_element.get('name', '')  # Имя есть не у всех зон, берем пустое если нет
-    param = zone_element.get('param', '') 
-    
+    param = zone_element.get('param', '')    
     
     # 1. Собираем стили контейнера (margin, padding, border и т.д.)
     styles = {}
     zone_style = zone_element.find('zone-style')
     if zone_style is not None:
-        for fmt in zone_style.findall('format'):
+        for fmt in zone_style.findall('format|_.fcp.DashboardRoundedCorners.true...format'):
             attr = fmt.get('attr')
             value = fmt.get('value')
             if attr and value is not None:

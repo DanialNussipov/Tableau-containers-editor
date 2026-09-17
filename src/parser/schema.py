@@ -5,6 +5,7 @@ class ZoneStyleUpdate(BaseModel):
     zone_ids: List[str] = Field(..., description="Список ID контейнеров для изменения")
     inner_padding: Optional[int] = Field(None, description="Внутренний отступ (padding) в пикселях")
     outer_padding: Optional[int] = Field(None, description="Внешний отступ (margin) в пикселях")
+    corner_radius: Optional[int] = Field(None, description="Радиус скругления углов (corner-radius) в пикселях")
     # Задел на будущее: background_color, border_width и т.д.
 
 class DashboardUpdateRequest(BaseModel):
