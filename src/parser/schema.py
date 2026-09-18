@@ -6,6 +6,7 @@ class ZoneStyleUpdate(BaseModel):
     inner_padding: Optional[int] = Field(None, description="Внутренний отступ (padding) в пикселях")
     outer_padding: Optional[int] = Field(None, description="Внешний отступ (margin) в пикселях")
     corner_radius: Optional[int] = Field(None, description="Радиус скругления углов (corner-radius) в пикселях")
+    border_color: Optional[str] = Field(None, description="Цвет границы(border-color) в #rrggbb формате")
     # Задел на будущее: background_color, border_width и т.д.
 
 class DashboardUpdateRequest(BaseModel):

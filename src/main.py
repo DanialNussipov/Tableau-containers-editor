@@ -23,6 +23,7 @@ class ModifyRequest(BaseModel):
     inner_padding: Optional[int] = Field(None, description="Inner Padding")
     outer_padding: Optional[int] = Field(None, description="Outer Padding")
     corner_radius: Optional[int] = Field(None, description="Corner Radius")
+    border_color: str = Field(None, description="Border Color")
 
 @app.post("/upload_text", response_class=PlainTextResponse)
 async def upload_file_text_view(file: UploadFile = File(...)):
@@ -95,7 +96,8 @@ async def modify_file(request: ModifyRequest):
         zone_ids=request.zone_ids,
         inner_pad=request.inner_padding,
         outer_pad=request.outer_padding,
-        corner_radius=request.corner_radius
+        corner_radius=request.corner_radius,
+        border_color = request.border_color
     )
     
     # Возвращаем файл пользователю как вложение для скачивания
