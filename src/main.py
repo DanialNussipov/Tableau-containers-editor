@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse, PlainTextResponse
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Literal
 import shutil
 from pathlib import Path
 # Импортируем наши написанные модули
@@ -23,7 +23,8 @@ class ModifyRequest(BaseModel):
     inner_padding: Optional[int] = Field(None, description="Inner Padding")
     outer_padding: Optional[int] = Field(None, description="Outer Padding")
     corner_radius: Optional[int] = Field(None, description="Corner Radius")
-    border_color: str = Field(None, description="Border Color")
+    border_color: Optional[str] = Field(None, description="Border Color")
+    border_style: Optional[Literal['none', 'solid', 'dotted', 'dashed']] = Field(None, description='Border style')
 
 @app.post("/upload_text", response_class=PlainTextResponse)
 async def upload_file_text_view(file: UploadFile = File(...)):
@@ -97,7 +98,8 @@ async def modify_file(request: ModifyRequest):
         inner_pad=request.inner_padding,
         outer_pad=request.outer_padding,
         corner_radius=request.corner_radius,
-        border_color = request.border_color
+        border_color = request.border_color,
+        border_style=request.border_style
     )
     
     # Возвращаем файл пользователю как вложение для скачивания

@@ -11551,28 +11551,28 @@ GROUP BY YEAR(DM_DATE), DO</relation>
                       <layout-cache fixed-size-h="545" minwidth="259" type-h="fixed" type-w="scalable"/>
                       <zone-style>
                         <format attr="border-color" value="#000000"/>
-                        <format attr="border-style" value="solid"/>
+                        <format attr="border-style" value="dotted"/>
                         <format attr="border-width" value="0"/>
-                        <format attr="margin" value="10"/>
-                      <format attr="padding" value="10"/><_.fcp.DashboardRoundedCorners.true...format attr="corner-radius" value="10"/></zone-style>
+                        <format attr="margin" value="20"/>
+                      <format attr="padding" value="20"/><_.fcp.DashboardRoundedCorners.true...format attr="corner-radius" value="20"/></zone-style>
                     </zone>
                     <zone h="30029" id="275" name="2.3.2 BAR Industry" w="38672" x="0" y="39941">
                       <layout-cache fixed-size-h="489" minwidth="259" type-h="fixed" type-w="scalable"/>
                       <zone-style>
                         <format attr="border-color" value="#000000"/>
-                        <format attr="border-style" value="solid"/>
+                        <format attr="border-style" value="dotted"/>
                         <format attr="border-width" value="0"/>
-                        <format attr="margin" value="10"/>
-                      <format attr="padding" value="10"/><_.fcp.DashboardRoundedCorners.true...format attr="corner-radius" value="10"/></zone-style>
+                        <format attr="margin" value="20"/>
+                      <format attr="padding" value="20"/><_.fcp.DashboardRoundedCorners.true...format attr="corner-radius" value="20"/></zone-style>
                     </zone>
                     <zone h="30030" id="276" name="2.3.3 PIE STAGE" w="38672" x="0" y="69970">
                       <layout-cache cell-count-h="1" non-cell-size-h="24" type-h="cell" type-w="cell"/>
                       <zone-style>
                         <format attr="border-color" value="#000000"/>
-                        <format attr="border-style" value="solid"/>
+                        <format attr="border-style" value="dotted"/>
                         <format attr="border-width" value="0"/>
-                        <format attr="margin" value="10"/>
-                      <format attr="padding" value="10"/><_.fcp.DashboardRoundedCorners.true...format attr="corner-radius" value="10"/></zone-style>
+                        <format attr="margin" value="20"/>
+                      <format attr="padding" value="20"/><_.fcp.DashboardRoundedCorners.true...format attr="corner-radius" value="20"/></zone-style>
                     </zone>
                   </zone>
                 </zone>

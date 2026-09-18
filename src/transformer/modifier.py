@@ -18,7 +18,16 @@ def _set_format_attr(zone_style, attr_name: str, value: str):
     # 3. Создаем нужный тег
     etree.SubElement(zone_style, tag_name, attr=attr_name, value=value)
 
-def modify_dashboard_styles(input_file_path: str, output_file_path: str, dashboard_name: str, zone_ids: list[str], inner_pad: int = None, outer_pad: int = None, corner_radius: int = None, border_color: str = None):
+def modify_dashboard_styles(input_file_path: str, 
+                            output_file_path: str, 
+                            dashboard_name: str, 
+                            zone_ids: list[str],
+                            inner_pad: int = None,
+                            outer_pad: int = None, 
+                            corner_radius: int = None, 
+                            border_color: str = None,
+                            border_style: str = None
+                            ):
     tree = etree.parse(input_file_path)
     root = tree.getroot()
     modified_count = 0
@@ -49,7 +58,10 @@ def modify_dashboard_styles(input_file_path: str, output_file_path: str, dashboa
                 if border_color is not None:
                     _set_format_attr(zone_style, 'border-style', 'solid')
                     _set_format_attr(zone_style, 'border-color', str(border_color))
-                    
+
+                if border_style is not None:
+                    _set_format_attr(zone_style, 'border-style', str(border_style))
+
                 modified_count += 1
 
     tree.write(output_file_path, encoding='utf-8', xml_declaration=True)
@@ -75,7 +87,8 @@ if __name__ == "__main__":
             inner_pad=40,  # Ставим Inner Padding в 40
             outer_pad=20,  # Ставим Outer Padding в 20
             corner_radius=15, # Ставим Corner Radius в 15
-            border_color='#000000'# Ставим черный Border Color
+            border_color='#000000',# Ставим черный Border Color
+            border_style='solid' # Ставим непрерывную линию границы 
         )
         print(f"Успешно изменено контейнеров: {changed} на листе '{target_dashboard}'.")
         print(f"Файл сохранен как {output_twb.name}")

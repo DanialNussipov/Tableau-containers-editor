@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
+from pydantic import BaseModel, Field, field_validator
+from typing import List, Optional, Dict, Any, Literal
 
 class ZoneStyleUpdate(BaseModel):
     zone_ids: List[str] = Field(..., description="Список ID контейнеров для изменения")
@@ -7,6 +7,7 @@ class ZoneStyleUpdate(BaseModel):
     outer_padding: Optional[int] = Field(None, description="Внешний отступ (margin) в пикселях")
     corner_radius: Optional[int] = Field(None, description="Радиус скругления углов (corner-radius) в пикселях")
     border_color: Optional[str] = Field(None, description="Цвет границы(border-color) в #rrggbb формате")
+    border_type: Optional[Literal['none', 'dashed', 'solid', 'dotted']] = Field(None, description="Стиль границы(border-style)")
     # Задел на будущее: background_color, border_width и т.д.
 
 class DashboardUpdateRequest(BaseModel):
