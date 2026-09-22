@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau Style Manager — Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --success-hover: #059669;
+            --danger-bg: rgba(239, 68, 68, 0.1);
+            --danger-border: rgba(239, 68, 68, 0.3);
+            --danger-text: #fca5a5;
+            --success-bg: rgba(16, 185, 129, 0.1);
+            --success-border: rgba(16, 185, 129, 0.3);
+            --success-text: #6ee7b7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 18px;
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        label code {
+            text-transform: none;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        input[type="text"], input[type="file"], select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.99);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-muted);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: var(--success-hover);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .alert {
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-error {
+            background-color: var(--danger-bg);
+            color: var(--danger-text);
+            border: 1px solid var(--danger-border);
+        }
+
+        .alert-success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid var(--success-border);
+        }
+
+        .console-box {
+            background-color: #0b0f19;
+            color: #38bdf8;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            max-height: 280px;
+            overflow-y: auto;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .console-box::-webkit-scrollbar {
+            width: 6px;
+        }
+        .console-box::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        .console-box::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Tableau Dashboard Style Manager</h1>
+        <p class="subtitle">Интерфейс управления стилями, анализа иерархий и обработки XML-контейнеров .twb</p>
+
+        <div id="alert-box" class="alert hidden"></div>
+
+        <!-- 1. Загрузка для JSON-анализа (нужна для выбора дашборда) -->
+        <div class="form-group">
+            <label>1. Выберите .twb файл <code>POST /upload</code></label>
+            <input type="file" id="fileInput" accept=".twb">
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="uploadFile()">Загрузить и проанализировать</button>
+        </div>
+
+        <!-- 2. Текстовый отчет по файлу -->
+        <div class="form-group" style="margin-top: 15px;">
+            <label>2. Полный текстовый отчет дерева <code>POST /upload_text</code></label>
+            <button type="button" class="btn-secondary" onclick="uploadTextFile()">📄 Посмотреть сырой текст</button>
+        </div>
+        <div id="text-output-box" class="console-box hidden"></div>
+
+        <!-- Интерактивная секция для модификации -->
+        <div id="interactive-section" class="hidden">
+            <hr>
+            
+            <div class="form-group">
+                <label>Выберите целевой дашборд</label>
+                <select id="dashboardSelect"></select>
+            </div>
+
+            <hr>
+
+            <h3>Пакетное изменение стилей <code>POST /modify</code></h3>
+            
+            <div class="form-group">
+                <label>ID контейнеров (через запятую)</label>
+                <input type="text" id="zoneIds" placeholder="например: 2, 39, 105">
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label>Inner Padding</label>
+                    <input type="text" id="innerPadding" value="10">
+                </div>
+                <div class="col form-group">
+                    <label>Outer Padding</label>
+                    <input type="text" id="outerPadding" value="0">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label>Corner Radius ( >= 2026 )</label>
+                    <input type="text" id="cornerRadius" value="0">
+                </div>
+                <div class="col form-group">
+                    <label>Border Color</label>
+                    <input type="text" id="borderColor" placeholder="#000000">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 25px;">
+                <button type="button" class="btn-success" onclick="applyStyles()">💾 Применить стили и скачать .twb</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let uploadedFilename = "";
+
+        function showAlert(message, isError = true) {
+            const box = document.getElementById("alert-box");
+            box.className = "alert " + (isError ? "alert-error" : "alert-success");
+            box.innerText = message;
+            box.classList.remove("hidden");
+        }
+
+        async function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length === 0) {
+                showAlert("Пожалуйста, выберите файл .twb");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            try {
+                const response = await fetch("/upload", { method: "POST", body: formData });
+                const data = await response.json();
+
+                if (response.ok) {
+                    uploadedFilename = data.filename;
+                    const select = document.getElementById("dashboardSelect");
+                    select.innerHTML = "";
+                    
+                    for (const [dashName] of Object.entries(data.dashboards)) {
+                        const opt = document.createElement("option");
+                        opt.value = dashName;
+                        opt.innerText = dashName;
+                        select.appendChild(opt);
+                    }
+
+                    document.getElementById("interactive-section").classList.remove("hidden");
+                    showAlert("Файл успешно загружен и проанализирован!", false);
+                } else {
+                    showAlert(data.detail || "Ошибка загрузки");
+                }
+            } catch (err) {
+                showAlert("Ошибка соединения с сервером");
+            }
+        }
+
+        async function uploadTextFile() {
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length === 0) {
+                showAlert("Сначала выберите .twb файл в поле выше");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            
+            const textBox = document.getElementById("text-output-box");
+            textBox.innerText = "Генерация отчета...";
+            textBox.classList.remove("hidden");
+
+            try {
+                const response = await fetch("/upload_text", { method: "POST", body: formData });
+                const textResult = await response.text();
+
+                if (response.ok) {
+                    textBox.innerText = textResult;
+                } else {
+                    textBox.innerText = "Ошибка: " + textResult;
+                }
+            } catch (err) {
+                textBox.innerText = "Ошибка соединения при запросе /upload_text";
+            }
+        }
+
+        async function applyStyles() {
+            const zoneIdsRaw = document.getElementById("zoneIds").value;
+            const zoneIds = zoneIdsRaw.split(",").map(s => s.trim()).filter(Boolean);
+
+            if (zoneIds.length === 0) {
+                showAlert("Укажите хотя бы один ID контейнера");
+                return;
+            }
+
+            const payload = {
+                filename: uploadedFilename,
+                dashboard_name: document.getElementById("dashboardSelect").value,
+                zone_ids: zoneIds,
+                inner_padding: parseInt(document.getElementById("innerPadding").value) || null,
+                outer_padding: parseInt(document.getElementById("outerPadding").value) || null,
+                corner_radius: parseInt(document.getElementById("cornerRadius").value) || null,
+                border_color: document.getElementById("borderColor").value || null
+            };
+
+            try {
+                const response = await fetch("/modify", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "modified_" + uploadedFilename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    showAlert("Стили применены, файл успешно скачивается!", false);
+                } else {
+                    const err = await response.json();
+                    let msg = err.detail;
+                    if (Array.isArray(err.detail)) {
+                        msg = err.detail.map(e => e.msg).join("; ");
+                    }
+                    showAlert("Ошибка валидации: " + msg);
+                }
+            } catch (err) {
+                showAlert("Ошибка при отправке запроса /modify");
+            }
+        }
+    </script>
+</body>
+</html>

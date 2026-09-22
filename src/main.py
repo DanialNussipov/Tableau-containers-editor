@@ -1,9 +1,10 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi import FastAPI, UploadFile, File, HTTPException, Request
+from fastapi.responses import FileResponse, PlainTextResponse, HTMLResponse
 from pydantic import BaseModel, Field, model_validator
 from typing import List, Optional, Literal
 import shutil
 from pathlib import Path
+from fastapi.templating import Jinja2Templates
 # Импортируем наши написанные модули
 from src.parser.xml_parser import parse_twb
 from src.transformer.modifier import modify_dashboard_styles
@@ -11,6 +12,13 @@ from src.utils.formatter import generate_tree_text
 from src.utils.checker import check_version
 
 app = FastAPI(title="Tableau Style Manager API")
+
+# Указываем FastAPI, где искать папки с HTML-шаблонами
+templates = Jinja2Templates(directory="src/ui/templates")
+
+@app.get("/", response_class=HTMLResponse)
+async def read_index(request: Request):
+    return templates.TemplateResponse(request, "index.html")
 
 # Папка для временных файлов
 TEMP_DIR = Path("temp")
