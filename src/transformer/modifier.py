@@ -26,7 +26,8 @@ def modify_dashboard_styles(input_file_path: str,
                             outer_pad: int = None, 
                             corner_radius: int = None, 
                             border_color: str = None,
-                            border_style: str = None
+                            border_style: str = None,
+                            background_color: str = None
                             ):
     tree = etree.parse(input_file_path)
     root = tree.getroot()
@@ -61,6 +62,9 @@ def modify_dashboard_styles(input_file_path: str,
 
                 if border_style is not None:
                     _set_format_attr(zone_style, 'border-style', str(border_style))
+
+                if background_color is not None:
+                    _set_format_attr(zone_style, 'background-color', str(background_color))
 
                 modified_count += 1
 

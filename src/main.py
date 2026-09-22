@@ -26,6 +26,7 @@ class ModifyRequest(BaseModel):
     corner_radius: Optional[int] = Field(None, description="Corner Radius")
     border_color: Optional[str] = Field(None, description="Border Color")
     border_style: Optional[Literal['none', 'solid', 'dotted', 'dashed']] = Field(None, description='Border style')
+    background_color: Optional[str] = Field(None, description="Background Color")
 
     @model_validator(mode='after')
     def validate_corner_radius_support(self):
@@ -120,8 +121,9 @@ async def modify_file(request: ModifyRequest):
         inner_pad=request.inner_padding,
         outer_pad=request.outer_padding,
         corner_radius=request.corner_radius,
-        border_color = request.border_color,
-        border_style=request.border_style
+        border_color=request.border_color,
+        border_style=request.border_style,
+        background_color=request.background_color
     )
     # Возвращаем файл пользователю как вложение для скачивания
     return FileResponse(

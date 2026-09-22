@@ -8,6 +8,7 @@ class ZoneStyleUpdate(BaseModel):
     corner_radius: Optional[int] = Field(None, description="Радиус скругления углов (corner-radius) в пикселях")
     border_color: Optional[str] = Field(None, description="Цвет границы(border-color) в #rrggbb формате")
     border_type: Optional[Literal['none', 'dashed', 'solid', 'dotted']] = Field(None, description="Стиль границы(border-style)")
+    background_color: Optional[str] = Field(None, description="Цвет фона контейнера")
     # Задел на будущее: background_color, border_width и т.д.
 
 class DashboardUpdateRequest(BaseModel):
