@@ -1,2 +1,8 @@
-venv
-__pycache__
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+# Временные файлы проекта
+temp/
+# Виртуальное окружение
+venv/

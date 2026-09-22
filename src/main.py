@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse, PlainTextResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from typing import List, Optional, Literal
 import shutil
 from pathlib import Path
@@ -8,6 +8,7 @@ from pathlib import Path
 from src.parser.xml_parser import parse_twb
 from src.transformer.modifier import modify_dashboard_styles
 from src.utils.formatter import generate_tree_text
+from src.utils.checker import check_version
 
 app = FastAPI(title="Tableau Style Manager API")
 
@@ -26,6 +27,29 @@ class ModifyRequest(BaseModel):
     border_color: Optional[str] = Field(None, description="Border Color")
     border_style: Optional[Literal['none', 'solid', 'dotted', 'dashed']] = Field(None, description='Border style')
 
+    @model_validator(mode='after')
+    def validate_corner_radius_support(self):
+        # Если corner_radius не передавали вовсе, проверка не нужна
+        if self.corner_radius is None or self.corner_radius == 0:
+            return self
+
+        file_path = TEMP_DIR / self.filename
+        if not file_path.exists():
+            # Если файл еще не загружен, пусть это отловит роут /modify, 
+            # но здесь проверяем версию только если файл существует
+            return self
+
+        major_year = check_version(file_path)
+
+        # Если версия Tableau старая (< 2026), а пользователь запросил corner_radius — рубим запрос
+        if major_year < 2026:
+            raise ValueError(
+                f"Параметр 'corner_radius' не поддерживается для этого файла "
+                f"(обнаружена версия Tableau {major_year}, требуется >= 2026). "
+                f"Поставьте значение 0 для 'corner-radius' для дальнейшей работы"
+            )
+
+        return self
 @app.post("/upload_text", response_class=PlainTextResponse)
 async def upload_file_text_view(file: UploadFile = File(...)):
     """
@@ -88,8 +112,6 @@ async def modify_file(request: ModifyRequest):
         
     output_filename = f"modified_{request.filename}"
     output_path = TEMP_DIR / output_filename
-    
-    # Применяем изменения
     modify_dashboard_styles(
         input_file_path=str(input_path),
         output_file_path=str(output_path),
@@ -101,7 +123,6 @@ async def modify_file(request: ModifyRequest):
         border_color = request.border_color,
         border_style=request.border_style
     )
-    
     # Возвращаем файл пользователю как вложение для скачивания
     return FileResponse(
         path=output_path, 
