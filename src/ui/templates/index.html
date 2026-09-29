@@ -102,6 +102,33 @@
             transition: all 0.2s ease;
         }
 
+        /* Стиль для инпута выбора цвета */
+        .color-picker-wrapper {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 48px;
+            height: 44px;
+            padding: 4px;
+            background: #0f172a;
+            cursor: pointer;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 6px;
+        }
+
         input[type="file"] {
             padding: 10px;
             cursor: pointer;
@@ -224,14 +251,14 @@
 <body>
     <div class="container">
         <h1>🎨 Tableau Dashboard Style Manager</h1>
-        <p class="subtitle">Интерфейс управления стилями, анализа иерархий и обработки XML-контейнеров .twb</p>
+        <p class="subtitle">Интерфейс управления стилями, анализа иерархий и обработки XML-контейнеров .twb и .twbx</p>
 
         <div id="alert-box" class="alert hidden"></div>
 
-        <!-- 1. Загрузка для JSON-анализа (нужна для выбора дашборда) -->
+        <!-- 1. Загрузка для JSON-анализа -->
         <div class="form-group">
-            <label>1. Выберите .twb файл <code>POST /upload</code></label>
-            <input type="file" id="fileInput" accept=".twb">
+            <label>1. Выберите файл (.twb или .twbx) <code>POST /upload</code></label>
+            <input type="file" id="fileInput" accept=".twb, .twbx">
         </div>
         <div class="form-group">
             <button type="button" onclick="uploadFile()">Загрузить и проанализировать</button>
@@ -280,18 +307,53 @@
                 </div>
                 <div class="col form-group">
                     <label>Border Color</label>
-                    <input type="text" id="borderColor" placeholder="#000000">
+                    <div class="color-picker-wrapper">
+                        <input type="color" id="borderColorPicker" value="#000000" oninput="syncColor('borderColorPicker', 'borderColor')">
+                        <input type="text" id="borderColor" placeholder="#000000" oninput="syncPicker('borderColor', 'borderColorPicker')">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label>Background Color</label>
+                    <div class="color-picker-wrapper">
+                        <input type="color" id="bgColorPicker" value="#ffffff" oninput="syncColor('bgColorPicker', 'backgroundColor')">
+                        <input type="text" id="backgroundColor" placeholder="#FFFFFF (или none)" oninput="syncPicker('backgroundColor', 'bgColorPicker')">
+                    </div>
+                </div>
+                <div class="col form-group">
+                    <label>Border Style</label>
+                    <select id="borderStyle">
+                        <option value="">(Не изменять)</option>
+                        <option value="solid">solid</option>
+                        <option value="none">none</option>
+                        <option value="dotted">dotted</option>
+                        <option value="dashed">dashed</option>
+                    </select>
                 </div>
             </div>
 
             <div class="form-group" style="margin-top: 25px;">
-                <button type="button" class="btn-success" onclick="applyStyles()">💾 Применить стили и скачать .twb</button>
+                <button type="button" class="btn-success" onclick="applyStyles()">💾 Применить стили и скачать результат</button>
             </div>
         </div>
     </div>
 
     <script>
         let uploadedFilename = "";
+
+        // Синхронизация между палитрой и текстовым полем
+        function syncColor(pickerId, textId) {
+            document.getElementById(textId).value = document.getElementById(pickerId).value.toUpperCase();
+        }
+
+        function syncPicker(textId, pickerId) {
+            const val = document.getElementById(textId).value;
+            if (/^#[0-9A-F]{6}$/i.test(val)) {
+                document.getElementById(pickerId).value = val;
+            }
+        }
 
         function showAlert(message, isError = true) {
             const box = document.getElementById("alert-box");
@@ -303,7 +365,7 @@
         async function uploadFile() {
             const fileInput = document.getElementById("fileInput");
             if (fileInput.files.length === 0) {
-                showAlert("Пожалуйста, выберите файл .twb");
+                showAlert("Пожалуйста, выберите файл .twb или .twbx");
                 return;
             }
 
@@ -339,7 +401,7 @@
         async function uploadTextFile() {
             const fileInput = document.getElementById("fileInput");
             if (fileInput.files.length === 0) {
-                showAlert("Сначала выберите .twb файл в поле выше");
+                showAlert("Сначала выберите файл в поле выше");
                 return;
             }
 
@@ -380,7 +442,9 @@
                 inner_padding: parseInt(document.getElementById("innerPadding").value) || null,
                 outer_padding: parseInt(document.getElementById("outerPadding").value) || null,
                 corner_radius: parseInt(document.getElementById("cornerRadius").value) || null,
-                border_color: document.getElementById("borderColor").value || null
+                border_color: document.getElementById("borderColor").value || null,
+                background_color: document.getElementById("backgroundColor").value || null,
+                border_style: document.getElementById("borderStyle").value || null
             };
 
             try {
