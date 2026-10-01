@@ -2,372 +2,977 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Tableau Style Manager — Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tableau Style Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --border-color: #334155;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
-            --accent: #06b6d4;
-            --success: #10b981;
-            --success-hover: #059669;
-            --danger-bg: rgba(239, 68, 68, 0.1);
-            --danger-border: rgba(239, 68, 68, 0.3);
-            --danger-text: #fca5a5;
-            --success-bg: rgba(16, 185, 129, 0.1);
-            --success-border: rgba(16, 185, 129, 0.3);
-            --success-text: #6ee7b7;
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --border: #ececec;
+            --border-strong: #e0e0e0;
+            --border-hover: #cfcfcf;
+            --text: #141414;
+            --text-2: #5c5c5c;
+            --text-3: #9a9a9a;
+            --accent: #4f46e5;
+            --accent-soft: #eef0fe;
+            --accent-border: #c9ccfb;
+            --ink: #141414;
+            --ink-hover: #000000;
+            --ok: #0a7d44;
+            --ok-soft: #e9f6ef;
+            --ok-border: #c3e6d2;
+            --err: #c0362c;
+            --err-soft: #fdecea;
+            --err-border: #f3c9c3;
+            --mono: "JetBrains Mono", "SFMono-Regular", Consolas, Menlo, monospace;
+            --r: 10px;
+            --r-lg: 14px;
         }
+
+        * { box-sizing: border-box; }
+
+        html { -webkit-text-size-adjust: 100%; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 40px 20px;
+            padding: 56px 20px 96px;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
             min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            font-feature-settings: "cv05", "ss01";
         }
 
-        .container {
-            width: 100%;
-            max-width: 850px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-        }
+        .app { width: 100%; max-width: 680px; }
 
-        h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-top: 0;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        p.subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        h3 {
-            font-size: 18px;
-            color: var(--text-main);
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 13px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        label code {
-            text-transform: none;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: var(--accent);
-            font-family: monospace;
-        }
-
-        input[type="text"], input[type="file"], select {
-            width: 100%;
-            padding: 12px 16px;
-            background-color: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-main);
-            font-size: 14px;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-        }
-
-        /* Стиль для инпута выбора цвета */
-        .color-picker-wrapper {
-            display: flex;
-            gap: 8px;
+        /* ---------- Header ---------- */
+        .masthead { margin-bottom: 36px; }
+        .brand {
+            display: inline-flex;
             align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .brand .mark {
+            width: 30px; height: 30px;
+            border-radius: 9px;
+            background: var(--ink);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .brand .wordmark {
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--text-2);
+        }
+        h1 {
+            font-size: 30px;
+            font-weight: 650;
+            letter-spacing: -0.03em;
+            margin: 0 0 8px;
+            line-height: 1.15;
+        }
+        .lede {
+            color: var(--text-2);
+            font-size: 15px;
+            margin: 0;
+            max-width: 48ch;
         }
 
-        input[type="color"] {
-            -webkit-appearance: none;
-            border: 1px solid var(--border-color);
+        /* ---------- Card / sections ---------- */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            box-shadow: 0 1px 2px rgba(20, 20, 20, 0.03), 0 10px 30px -18px rgba(20, 20, 20, 0.12);
+            overflow: hidden;
+        }
+        .section { padding: 26px 28px; }
+        .section + .section { border-top: 1px solid var(--border); }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 16px;
+        }
+        .eyebrow .step {
+            width: 20px; height: 20px;
+            border-radius: 6px;
+            background: var(--bg);
+            border: 1px solid var(--border-strong);
+            color: var(--text-2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            letter-spacing: 0;
+        }
+
+        /* ---------- Dropzone ---------- */
+        .dropzone {
+            border: 1.5px dashed var(--border-hover);
+            border-radius: var(--r);
+            padding: 30px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color .18s, background .18s;
+            background: #fcfcfc;
+        }
+        .dropzone:hover { border-color: var(--text-3); background: #fafafa; }
+        .dropzone.dragover { border-color: var(--accent); background: var(--accent-soft); }
+        .dropzone .dz-icon { color: var(--text-3); margin-bottom: 12px; display: inline-flex; }
+        .dropzone.dragover .dz-icon { color: var(--accent); }
+        .dz-title { font-size: 14.5px; font-weight: 500; }
+        .dz-sub { font-size: 13px; color: var(--text-3); margin-top: 3px; }
+        .dz-file {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .dz-file .fchip {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border-strong);
             border-radius: 8px;
-            width: 48px;
-            height: 44px;
-            padding: 4px;
-            background: #0f172a;
+            padding: 7px 12px;
+            max-width: 100%;
+        }
+        .dz-file .fchip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .dz-file .fchip svg { color: var(--text-3); flex-shrink: 0; }
+        .has-file .dz-prompt { display: none; }
+        .has-file .dz-file { display: flex; }
+
+        .actions { display: flex; gap: 10px; margin-top: 18px; }
+
+        /* ---------- Buttons ---------- */
+        button, .btn {
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 550;
+            border-radius: 9px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            padding: 10px 16px;
+            transition: background .15s, border-color .15s, color .15s, transform .06s, box-shadow .15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        button:active:not(:disabled) { transform: translateY(0.5px); }
+        button:disabled { opacity: .45; cursor: not-allowed; }
+
+        .btn-primary { background: var(--ink); color: #fff; }
+        .btn-primary:hover:not(:disabled) { background: var(--ink-hover); }
+
+        .btn-ghost { background: var(--surface); color: var(--text); border-color: var(--border-strong); }
+        .btn-ghost:hover:not(:disabled) { border-color: var(--border-hover); background: #fcfcfc; }
+
+        .flex1 { flex: 1; }
+
+        .spin {
+            width: 14px; height: 14px;
+            border: 2px solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            animation: spin .6s linear infinite;
+            opacity: .9;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ---------- Forms ---------- */
+        .field { margin-bottom: 18px; }
+        .field:last-child { margin-bottom: 0; }
+        label.lbl {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-2);
+            margin-bottom: 7px;
+        }
+
+        .input, select.input {
+            width: 100%;
+            padding: 10px 13px;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 9px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color .15s, box-shadow .15s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .input::placeholder { color: var(--text-3); }
+        .input:focus, select.input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3.5px var(--accent-soft);
+        }
+        select.input {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239a9a9a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 38px;
             cursor: pointer;
         }
 
-        input[type="color"]::-webkit-color-swatch-wrapper {
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        /* color control */
+        .color-ctl { display: flex; gap: 8px; align-items: center; }
+        .swatch {
+            position: relative;
+            width: 40px; height: 40px;
+            border-radius: 9px;
+            border: 1px solid var(--border-strong);
+            overflow: hidden;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .swatch input[type="color"] {
+            position: absolute; inset: -4px;
+            width: calc(100% + 8px); height: calc(100% + 8px);
+            border: none; padding: 0; background: none; cursor: pointer;
+        }
+        .swatch input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        .swatch input[type="color"]::-webkit-color-swatch { border: none; border-radius: 0; }
+        .swatch input[type="color"]::-moz-color-swatch { border: none; }
+        .color-ctl .input { font-family: var(--mono); font-size: 13px; }
+
+        /* ---------- View switch + toolbar ---------- */
+        .selector-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .segmented {
+            display: inline-flex;
+            background: var(--bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 9px;
+            padding: 3px;
+            gap: 2px;
+        }
+        .segmented button {
+            padding: 5px 13px;
+            font-size: 12.5px;
+            font-weight: 550;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-2);
+            border: none;
+            width: auto;
+            gap: 6px;
+        }
+        .segmented button.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(20,20,20,.08); }
+        .tool-group { display: inline-flex; align-items: center; gap: 8px; }
+        select.mini {
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-2);
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            padding: 6px 28px 6px 11px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239a9a9a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 9px center;
+        }
+        .count-pill { font-size: 12px; font-weight: 500; color: var(--text-2); display: inline-flex; align-items: center; gap: 8px; }
+        .count-pill b { color: var(--ink); font-weight: 600; }
+
+        /* ---------- Map ---------- */
+        .map-stage {
+            position: relative;
+            width: 100%;
+            height: 580px;
+            background: #fcfcfc;
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+        .map-stage.panning { cursor: grabbing; }
+        .map-canvas { position: absolute; inset: 0; transform-origin: 0 0; }
+        .map-empty { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--text-3); font-size:13px; }
+
+        .map-zone {
+            position: absolute;
+            border: 1px solid rgba(20,20,20,.16);
+            border-radius: 4px;
+            background: rgba(20,20,20,.015);
+            pointer-events: none;
+            overflow: hidden;
+            transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
+        }
+        .map-zone.hover {
+            border-color: var(--text-3);
+            background: rgba(20,20,20,.06);
+            overflow: visible;
+            z-index: 99999 !important;
+        }
+        .map-zone.selected {
+            border-color: var(--ink);
+            background: rgba(20,20,20,.09);
+            box-shadow: inset 0 0 0 1.5px var(--ink);
+            overflow: visible;
+        }
+        .map-zone .mz-id {
+            position: absolute;
+            bottom: 100%;
+            left: -1px;
+            margin-bottom: 4px;
+            font-family: var(--mono);
+            font-size: 10.5px;
+            line-height: 1;
+            white-space: nowrap;
+            color: #fff;
+            background: var(--ink);
+            padding: 3px 7px;
+            border-radius: 6px;
+            pointer-events: none;
+            z-index: 300;
+            box-shadow: 0 2px 8px rgba(20,20,20,.28);
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity .18s ease, transform .18s ease;
+        }
+        .map-zone.hover .mz-id { opacity: 1; transform: translateY(0); }
+
+        /* zoom controls */
+        .map-controls {
+            position: absolute;
+            right: 10px; bottom: 10px;
+            display: inline-flex;
+            gap: 1px;
+            background: var(--border-strong);
+            border-radius: 9px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(20,20,20,.1);
+            z-index: 400;
+        }
+        .map-controls button {
+            width: 34px; height: 30px;
+            border: none; border-radius: 0;
+            background: var(--surface);
+            color: var(--text-2);
+            font-size: 15px; font-weight: 500;
+            display: inline-flex; align-items: center; justify-content: center;
             padding: 0;
         }
-
-        input[type="color"]::-webkit-color-swatch {
-            border: none;
+        .map-controls button:hover { background: var(--bg); color: var(--text); }
+        .map-zoom-label {
+            min-width: 46px;
+            background: var(--surface);
+            color: var(--text-2);
+            font-size: 11.5px; font-weight: 500;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .map-hint {
+            position: absolute;
+            left: 10px; bottom: 10px;
+            font-size: 11px;
+            color: var(--text-3);
+            background: rgba(252,252,252,.85);
+            padding: 3px 8px;
             border-radius: 6px;
+            pointer-events: none;
+            z-index: 400;
         }
 
-        input[type="file"] {
-            padding: 10px;
-            cursor: pointer;
-            color: var(--text-muted);
+        /* ---------- Tree ---------- */
+        .link-btn {
+            background: none; border: none; padding: 0;
+            color: var(--text-3); font-size: 12.5px; font-weight: 500;
+            cursor: pointer; width: auto;
         }
+        .link-btn:hover { color: var(--text); }
 
-        input[type="text"]:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        .tree-box {
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 5px;
+            max-height: 340px;
+            overflow: auto;
+            background: #fcfcfc;
         }
+        .tree-empty { padding: 28px 16px; text-align: center; color: var(--text-3); font-size: 13px; }
 
-        .row {
-            display: flex;
-            gap: 16px;
-        }
-
-        .col {
-            flex: 1;
-        }
-
-        button {
-            background-color: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
-        button:hover {
-            background-color: var(--primary-hover);
-        }
-
-        button:active {
-            transform: scale(0.99);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-color: var(--text-muted);
-        }
-
-        .btn-success {
-            background-color: var(--success);
-        }
-
-        .btn-success:hover {
-            background-color: var(--success-hover);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .alert {
-            padding: 14px 16px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-            font-size: 14px;
+        .tree-row {
             display: flex;
             align-items: center;
+            gap: 9px;
+            padding: 6px 9px;
+            border-radius: 7px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 13px;
+            transition: background .1s;
+        }
+        .tree-row:hover { background: #f4f4f4; }
+        .tree-row.selected { background: #ececec; }
+        .tree-check {
+            width: 17px; height: 17px;
+            border: 1.5px solid var(--border-hover);
+            border-radius: 5px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: background .12s, border-color .12s;
+        }
+        .tree-check svg { opacity: 0; }
+        .tree-row.selected .tree-check { background: var(--ink); border-color: var(--ink); }
+        .tree-row.selected .tree-check svg { opacity: 1; }
+        .tree-type { font-weight: 550; }
+        .tree-id { font-family: var(--mono); color: var(--text-3); font-size: 12px; }
+        .tree-name { color: var(--text-2); }
+        .tree-styles {
+            font-family: var(--mono);
+            color: var(--text-3);
+            font-size: 11.5px;
+            margin-left: auto;
+            padding-left: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .alert-error {
-            background-color: var(--danger-bg);
-            color: var(--danger-text);
-            border: 1px solid var(--danger-border);
-        }
-
-        .alert-success {
-            background-color: var(--success-bg);
-            color: var(--success-text);
-            border: 1px solid var(--success-border);
-        }
-
+        /* ---------- Console ---------- */
         .console-box {
-            background-color: #0b0f19;
-            color: #38bdf8;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            white-space: pre-wrap;
-            margin-bottom: 20px;
-            max-height: 280px;
-            overflow-y: auto;
+            background: #141414;
+            color: #e8e8e8;
+            padding: 16px 18px;
+            border-radius: var(--r);
+            font-family: var(--mono);
+            white-space: pre;
+            overflow: auto;
+            max-height: 320px;
             font-size: 12px;
-            line-height: 1.5;
+            line-height: 1.6;
+            margin-top: 14px;
         }
 
-        .console-box::-webkit-scrollbar {
-            width: 6px;
+        /* ---------- Alert ---------- */
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: var(--r);
+            margin-bottom: 20px;
+            font-size: 13.5px;
+            border: 1px solid transparent;
         }
-        .console-box::-webkit-scrollbar-track {
-            background: #0b0f19;
-        }
-        .console-box::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
-        }
+        .alert svg { flex-shrink: 0; margin-top: 1px; }
+        .alert-error { background: var(--err-soft); color: var(--err); border-color: var(--err-border); }
+        .alert-success { background: var(--ok-soft); color: var(--ok); border-color: var(--ok-border); }
 
-        hr {
-            border: 0;
-            border-top: 1px solid var(--border-color);
-            margin: 30px 0;
+        .hidden { display: none !important; }
+
+        /* scrollbars */
+        .tree-box::-webkit-scrollbar, .console-box::-webkit-scrollbar { width: 9px; height: 9px; }
+        .tree-box::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; border: 2px solid #fcfcfc; }
+        .console-box::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 5px; }
+        .tree-box::-webkit-scrollbar-track, .console-box::-webkit-scrollbar-track { background: transparent; }
+
+        @media (max-width: 560px) {
+            body { padding: 36px 16px 72px; }
+            .section { padding: 22px 18px; }
+            h1 { font-size: 25px; }
+            .grid { grid-template-columns: 1fr; gap: 14px; }
+            .actions { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎨 Tableau Dashboard Style Manager</h1>
-        <p class="subtitle">Интерфейс управления стилями, анализа иерархий и обработки XML-контейнеров .twb и .twbx</p>
+    <div class="app">
+        <!-- Header -->
+        <header class="masthead">
+            <div class="brand">
+                <span class="mark">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" shape-rendering="geometricPrecision"><rect x="4" y="4" width="7.5" height="16" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="7" rx="1.6"/><rect x="13.5" y="13" width="6.5" height="7" rx="1.6"/></svg>
+                </span>
+                <span class="wordmark">Tableau&nbsp;·&nbsp;Style Manager</span>
+            </div>
+            <h1>Редактор стилей контейнеров</h1>
+            <p class="lede">Загрузите <b>.twb</b> или <b>.twbx</b>, выберите контейнеры в дереве макета и примените отступы, скругления и границы пакетно.</p>
+        </header>
 
         <div id="alert-box" class="alert hidden"></div>
 
-        <!-- 1. Загрузка для JSON-анализа -->
-        <div class="form-group">
-            <label>1. Выберите файл (.twb или .twbx) <code>POST /upload</code></label>
-            <input type="file" id="fileInput" accept=".twb, .twbx">
-        </div>
-        <div class="form-group">
-            <button type="button" onclick="uploadFile()">Загрузить и проанализировать</button>
-        </div>
+        <div class="card">
+            <!-- Step 1: upload -->
+            <div class="section">
+                <div class="eyebrow"><span class="step">1</span> Файл дашборда</div>
 
-        <!-- 2. Текстовый отчет по файлу -->
-        <div class="form-group" style="margin-top: 15px;">
-            <label>2. Полный текстовый отчет дерева <code>POST /upload_text</code></label>
-            <button type="button" class="btn-secondary" onclick="uploadTextFile()">📄 Посмотреть сырой текст</button>
-        </div>
-        <div id="text-output-box" class="console-box hidden"></div>
-
-        <!-- Интерактивная секция для модификации -->
-        <div id="interactive-section" class="hidden">
-            <hr>
-            
-            <div class="form-group">
-                <label>Выберите целевой дашборд</label>
-                <select id="dashboardSelect"></select>
-            </div>
-
-            <hr>
-
-            <h3>Пакетное изменение стилей <code>POST /modify</code></h3>
-            
-            <div class="form-group">
-                <label>ID контейнеров (через запятую)</label>
-                <input type="text" id="zoneIds" placeholder="например: 2, 39, 105">
-            </div>
-
-            <div class="row">
-                <div class="col form-group">
-                    <label>Inner Padding</label>
-                    <input type="text" id="innerPadding" value="10">
-                </div>
-                <div class="col form-group">
-                    <label>Outer Padding</label>
-                    <input type="text" id="outerPadding" value="0">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col form-group">
-                    <label>Corner Radius ( >= 2026 )</label>
-                    <input type="text" id="cornerRadius" value="0">
-                </div>
-                <div class="col form-group">
-                    <label>Border Color</label>
-                    <div class="color-picker-wrapper">
-                        <input type="color" id="borderColorPicker" value="#000000" oninput="syncColor('borderColorPicker', 'borderColor')">
-                        <input type="text" id="borderColor" placeholder="#000000" oninput="syncPicker('borderColor', 'borderColorPicker')">
+                <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" accept=".twb, .twbx" class="hidden" onchange="onFilePicked()">
+                    <div class="dz-prompt">
+                        <span class="dz-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </span>
+                        <div class="dz-title">Перетащите файл сюда</div>
+                        <div class="dz-sub">или нажмите, чтобы выбрать · .twb, .twbx</div>
+                    </div>
+                    <div class="dz-file">
+                        <span class="fchip">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <span id="file-name"></span>
+                        </span>
                     </div>
                 </div>
+
+                <div class="actions">
+                    <button type="button" class="btn-primary flex1" id="analyzeBtn" onclick="withLoading(this, 'Анализ…', uploadFile)" disabled>Проанализировать</button>
+                    <button type="button" class="btn-ghost" onclick="withLoading(this, 'Читаю…', uploadTextFile)">Сырой отчёт</button>
+                </div>
+
+                <div id="text-output-box" class="console-box hidden"></div>
             </div>
 
-            <div class="row">
-                <div class="col form-group">
-                    <label>Background Color</label>
-                    <div class="color-picker-wrapper">
-                        <input type="color" id="bgColorPicker" value="#ffffff" oninput="syncColor('bgColorPicker', 'backgroundColor')">
-                        <input type="text" id="backgroundColor" placeholder="#FFFFFF (или none)" oninput="syncPicker('backgroundColor', 'bgColorPicker')">
+            <!-- Step 2: editor -->
+            <div id="interactive-section" class="section hidden">
+                <div class="eyebrow"><span class="step">2</span> Контейнеры и стили</div>
+
+                <div class="field">
+                    <label class="lbl" for="dashboardSelect">Дашборд</label>
+                    <select id="dashboardSelect" class="input" onchange="onDashboardChange()"></select>
+                </div>
+
+                <div class="field">
+                    <div class="selector-bar">
+                        <div class="segmented">
+                            <button type="button" id="tab-map" class="active" onclick="setView('map')">◳ Карта</button>
+                            <button type="button" id="tab-tree" onclick="setView('tree')">☰ Дерево</button>
+                        </div>
+                        <div class="tool-group">
+                            <select class="mini" id="typeSelect" onchange="selectByType(this.value)">
+                                <option value="">Выбрать по типу…</option>
+                            </select>
+                            <button type="button" class="link-btn" onclick="selectAll()">Выбрать всё</button>
+                            <span class="count-pill"><span id="sel-count">0 выбрано</span><button type="button" class="link-btn hidden" id="clearBtn" onclick="clearSelection()">Сбросить</button></span>
+                        </div>
+                    </div>
+                    <div id="map-stage" class="map-stage">
+                        <div id="map-canvas" class="map-canvas"></div>
+                        <div class="map-controls">
+                            <button type="button" onclick="zoomBy(1/1.35)" title="Отдалить">−</button>
+                            <span class="map-zoom-label" id="zoom-label">100%</span>
+                            <button type="button" onclick="zoomBy(1.35)" title="Приблизить">+</button>
+                            <button type="button" onclick="fitMap()" title="Вписать">⤢</button>
+                        </div>
+                        <div class="map-hint">колесо — зум · перетащить — двигать</div>
+                    </div>
+                    <div id="tree-box" class="tree-box hidden"></div>
+                </div>
+
+                <div class="field">
+                    <label class="lbl" for="zoneIds">ID выбранных контейнеров</label>
+                    <input type="text" id="zoneIds" class="input" placeholder="например: 2, 39, 105" oninput="syncZoneSelection()" style="font-family: var(--mono); font-size: 13px;">
+                </div>
+
+                <div class="grid" style="margin-bottom: 16px;">
+                    <div>
+                        <label class="lbl">Inner padding</label>
+                        <input type="text" id="innerPadding" class="input" value="10">
+                    </div>
+                    <div>
+                        <label class="lbl">Outer padding</label>
+                        <input type="text" id="outerPadding" class="input" value="0">
                     </div>
                 </div>
-                <div class="col form-group">
-                    <label>Border Style</label>
-                    <select id="borderStyle">
-                        <option value="">(Не изменять)</option>
-                        <option value="solid">solid</option>
-                        <option value="none">none</option>
-                        <option value="dotted">dotted</option>
-                        <option value="dashed">dashed</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="form-group" style="margin-top: 25px;">
-                <button type="button" class="btn-success" onclick="applyStyles()">💾 Применить стили и скачать результат</button>
+                <div class="grid" style="margin-bottom: 16px;">
+                    <div>
+                        <label class="lbl">Corner radius <span style="color:var(--text-3)">· 2026+</span></label>
+                        <input type="text" id="cornerRadius" class="input" value="0">
+                    </div>
+                    <div>
+                        <label class="lbl">Border style</label>
+                        <select id="borderStyle" class="input">
+                            <option value="">Не изменять</option>
+                            <option value="solid">solid</option>
+                            <option value="none">none</option>
+                            <option value="dotted">dotted</option>
+                            <option value="dashed">dashed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div>
+                        <label class="lbl">Border color</label>
+                        <div class="color-ctl">
+                            <span class="swatch"><input type="color" id="borderColorPicker" value="#000000" oninput="syncColor('borderColorPicker', 'borderColor')"></span>
+                            <input type="text" id="borderColor" class="input" placeholder="#000000" oninput="syncPicker('borderColor', 'borderColorPicker')">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="lbl">Background</label>
+                        <div class="color-ctl">
+                            <span class="swatch"><input type="color" id="bgColorPicker" value="#ffffff" oninput="syncColor('bgColorPicker', 'backgroundColor')"></span>
+                            <input type="text" id="backgroundColor" class="input" placeholder="#FFFFFF / none" oninput="syncPicker('backgroundColor', 'bgColorPicker')">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions" style="margin-top: 24px;">
+                    <button type="button" class="btn-primary flex1" id="applyBtn" onclick="withLoading(this, 'Применяю…', applyStyles)" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Применить и скачать
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         let uploadedFilename = "";
+        let allDashboards = {};
+        let selectedIds = new Set();
+        let currentView = "map";
 
-        // Синхронизация между палитрой и текстовым полем
-        function syncColor(pickerId, textId) {
-            document.getElementById(textId).value = document.getElementById(pickerId).value.toUpperCase();
+        const CHECK_SVG = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+        function esc(s) {
+            const d = document.createElement("div");
+            d.textContent = s == null ? "" : s;
+            return d.innerHTML;
         }
 
-        function syncPicker(textId, pickerId) {
-            const val = document.getElementById(textId).value;
-            if (/^#[0-9A-F]{6}$/i.test(val)) {
-                document.getElementById(pickerId).value = val;
+        function currentRoot() { return allDashboards[document.getElementById("dashboardSelect").value]; }
+
+        // Пустое/нулевое поле -> null (не изменять); явный 0 сохраняется.
+        function numOrNull(id) {
+            const v = document.getElementById(id).value.trim();
+            if (v === "") return null;
+            const n = parseInt(v, 10);
+            return isNaN(n) ? null : n;
+        }
+
+        /* кнопка в состоянии загрузки */
+        function withLoading(btn, label, fn) {
+            const orig = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spin"></span>' + label;
+            return Promise.resolve().then(fn).finally(() => { btn.innerHTML = orig; btn.disabled = false; });
+        }
+
+        /* ---------- Upload UI ---------- */
+        function onFilePicked() {
+            const f = document.getElementById("fileInput").files[0];
+            const dz = document.getElementById("dropzone");
+            if (f) {
+                document.getElementById("file-name").textContent = f.name;
+                dz.classList.add("has-file");
+                document.getElementById("analyzeBtn").disabled = false;
+            } else {
+                dz.classList.remove("has-file");
+                document.getElementById("analyzeBtn").disabled = true;
             }
         }
 
+        (function setupDnd() {
+            const dz = document.getElementById("dropzone");
+            ["dragenter", "dragover"].forEach(ev => dz.addEventListener(ev, e => {
+                e.preventDefault(); dz.classList.add("dragover");
+            }));
+            ["dragleave", "drop"].forEach(ev => dz.addEventListener(ev, e => {
+                e.preventDefault();
+                if (ev === "dragleave" && dz.contains(e.relatedTarget)) return;
+                dz.classList.remove("dragover");
+            }));
+            dz.addEventListener("drop", e => {
+                const file = e.dataTransfer.files[0];
+                if (!file) return;
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                document.getElementById("fileInput").files = dt.files;
+                onFilePicked();
+            });
+        })();
+
+        /* ---------- Alerts ---------- */
+        const ICON_ERR = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+        const ICON_OK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
         function showAlert(message, isError = true) {
             const box = document.getElementById("alert-box");
             box.className = "alert " + (isError ? "alert-error" : "alert-success");
-            box.innerText = message;
+            box.innerHTML = (isError ? ICON_ERR : ICON_OK) + "<span>" + esc(message) + "</span>";
             box.classList.remove("hidden");
         }
 
+        /* ---------- View dispatch ---------- */
+        function setView(v) {
+            currentView = v;
+            document.getElementById("tab-map").classList.toggle("active", v === "map");
+            document.getElementById("tab-tree").classList.toggle("active", v === "tree");
+            document.getElementById("map-stage").classList.toggle("hidden", v !== "map");
+            document.getElementById("tree-box").classList.toggle("hidden", v !== "tree");
+            renderActive();
+        }
+
+        function renderActive() {
+            if (currentView === "map") renderMap();
+            else renderTree();
+            updateSelectionUI();
+        }
+
+        function onDashboardChange() {
+            selectedIds = new Set();
+            document.getElementById("zoneIds").value = "";
+            mapZoom = 1; mapPanX = 0; mapPanY = 0;
+            renderActive();
+        }
+
+        /* ---------- Map (визуальная карта макета) ---------- */
+        let mapZoom = 1, mapPanX = 0, mapPanY = 0, panMoved = false;
+        let mapZones = [], hoverEl = null;
+
+        function applyMapTransform() {
+            document.getElementById("map-canvas").style.transform = `translate(${mapPanX}px,${mapPanY}px) scale(${mapZoom})`;
+            document.getElementById("zoom-label").textContent = Math.round(mapZoom * 100) + "%";
+        }
+        function clampPan() {
+            const s = document.getElementById("map-stage"), W = s.clientWidth, H = s.clientHeight;
+            const cw = W * mapZoom, ch = H * mapZoom;
+            mapPanX = cw <= W ? (W - cw) / 2 : Math.min(0, Math.max(W - cw, mapPanX));
+            mapPanY = ch <= H ? (H - ch) / 2 : Math.min(0, Math.max(H - ch, mapPanY));
+        }
+        function zoomAt(cx, cy, f) {
+            const nz = Math.min(14, Math.max(0.3, mapZoom * f));
+            mapPanX = cx - (cx - mapPanX) / mapZoom * nz;
+            mapPanY = cy - (cy - mapPanY) / mapZoom * nz;
+            mapZoom = nz; clampPan(); applyMapTransform();
+        }
+        function zoomBy(f) { const s = document.getElementById("map-stage"); zoomAt(s.clientWidth / 2, s.clientHeight / 2, f); }
+        function fitMap() { mapZoom = 1; mapPanX = 0; mapPanY = 0; clampPan(); applyMapTransform(); }
+
+        function renderMap() {
+            const stage = document.getElementById("map-stage"), canvas = document.getElementById("map-canvas");
+            canvas.innerHTML = ""; mapZones = []; hoverEl = null;
+            const root = currentRoot();
+            if (!root) { canvas.innerHTML = '<div class="map-empty">Контейнеры не найдены</div>'; return; }
+            const dw = (root.geom && root.geom.w) || 100000, dh = (root.geom && root.geom.h) || 100000;
+            const W = stage.clientWidth, H = stage.clientHeight;
+            const scale = Math.min((W - 20) / dw, (H - 20) / dh);
+            const offX = (W - dw * scale) / 2, offY = (H - dh * scale) / 2;
+
+            eachZone(root, node => {
+                const g = node.geom || {};
+                if (!(g.w > 0 && g.h > 0)) return;
+                const l = offX + g.x * scale, t = offY + g.y * scale, w = Math.max(3, g.w * scale), h = Math.max(3, g.h * scale);
+                const el = document.createElement("div");
+                el.className = "map-zone" + (selectedIds.has(node.id) ? " selected" : "");
+                el.style.cssText = `left:${l}px;top:${t}px;width:${w}px;height:${h}px;z-index:${Math.min(50000, Math.round(1e10 / (g.w * g.h + 1)))}`;
+                el.innerHTML = `<span class="mz-id">${esc(`${node.type || "zone"} #${node.id}` + (node.name ? ` '${node.name}'` : ""))}</span>`;
+                canvas.appendChild(el);
+                mapZones.push({ id: node.id, l, t, w, h, area: w * h, el });
+            });
+            mapZones.sort((a, b) => a.area - b.area); // мелкие первыми — чтобы ловить вложенные
+            applyMapTransform();
+        }
+
+        // Самая маленькая зона под точкой (координаты относительно сцены)
+        function zoneAt(cx, cy) {
+            const x = (cx - mapPanX) / mapZoom, y = (cy - mapPanY) / mapZoom;
+            return mapZones.find(z => x >= z.l && x <= z.l + z.w && y >= z.t && y <= z.t + z.h) || null;
+        }
+        function setHover(z) {
+            const el = z ? z.el : null;
+            if (el === hoverEl) return;
+            if (hoverEl) hoverEl.classList.remove("hover");
+            if (el) el.classList.add("hover");
+            hoverEl = el;
+        }
+
+        /* zoom / pan / выбор по карте */
+        (function setupMapInput() {
+            const stage = document.getElementById("map-stage");
+            const local = e => { const r = stage.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+
+            stage.addEventListener("wheel", e => {
+                if (document.getElementById("interactive-section").classList.contains("hidden")) return;
+                e.preventDefault();
+                const [x, y] = local(e);
+                zoomAt(x, y, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+            }, { passive: false });
+
+            let dragging = false, captured = false, pid = null, sx = 0, sy = 0, px0 = 0, py0 = 0;
+            stage.addEventListener("pointerdown", e => {
+                if (e.target.closest(".map-controls")) return;
+                dragging = true; panMoved = false; pid = e.pointerId;
+                sx = e.clientX; sy = e.clientY; px0 = mapPanX; py0 = mapPanY;
+            });
+            stage.addEventListener("pointermove", e => {
+                if (dragging) {
+                    const dx = e.clientX - sx, dy = e.clientY - sy;
+                    if (!panMoved && Math.abs(dx) + Math.abs(dy) > 4) {
+                        panMoved = true; stage.classList.add("panning");
+                        try { stage.setPointerCapture(pid); captured = true; } catch (_) {}
+                    }
+                    if (panMoved) { mapPanX = px0 + dx; mapPanY = py0 + dy; clampPan(); applyMapTransform(); }
+                } else {
+                    const [x, y] = local(e);
+                    setHover(zoneAt(x, y));
+                }
+            });
+            const end = () => {
+                if (!dragging) return;
+                dragging = false; stage.classList.remove("panning");
+                if (captured) { try { stage.releasePointerCapture(pid); } catch (_) {} captured = false; }
+            };
+            stage.addEventListener("pointerup", e => {
+                if (e.target.closest(".map-controls")) return;
+                const wasPan = panMoved;
+                end();
+                if (!wasPan) { const [x, y] = local(e); const z = zoneAt(x, y); if (z) toggleZone(z.id); }
+            });
+            stage.addEventListener("pointercancel", end);
+            stage.addEventListener("pointerleave", () => { setHover(null); end(); });
+        })();
+
+        /* ---------- Tree ---------- */
+        function renderTree() {
+            const box = document.getElementById("tree-box");
+            const root = currentRoot();
+            box.innerHTML = "";
+            if (root) box.appendChild(buildRow(root, 0));
+            else box.innerHTML = '<div class="tree-empty">Контейнеры не найдены</div>';
+        }
+
+        /* ---------- Select helpers ---------- */
+        function eachZone(node, fn) {
+            fn(node);
+            (node.children || []).forEach(c => eachZone(c, fn));
+        }
+
+        function selectAll() {
+            const root = currentRoot();
+            if (!root) return;
+            eachZone(root, n => selectedIds.add(n.id));
+            applySelection();
+        }
+
+        function selectByType(type) {
+            const root = currentRoot();
+            if (!root || !type) return;
+            eachZone(root, n => { if ((n.type || "zone") === type) selectedIds.add(n.id); });
+            document.getElementById("typeSelect").value = "";
+            applySelection();
+        }
+
+        function applySelection() {
+            document.getElementById("zoneIds").value = [...selectedIds].join(", ");
+            renderActive();
+        }
+
+        function populateTypes() {
+            const sel = document.getElementById("typeSelect");
+            const root = currentRoot();
+            const types = new Set();
+            if (root) eachZone(root, n => types.add(n.type || "zone"));
+            sel.innerHTML = '<option value="">Выбрать по типу…</option>' +
+                [...types].sort().map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+        }
+
+        function buildRow(node, depth) {
+            const frag = document.createDocumentFragment();
+            const row = document.createElement("div");
+            const isSel = selectedIds.has(node.id);
+            row.className = "tree-row" + (isSel ? " selected" : "");
+            row.style.paddingLeft = (9 + depth * 18) + "px";
+            const styleStr = Object.entries(node.styles || {}).map(([k, v]) => `${k}=${v}`).join("  ");
+            row.innerHTML =
+                `<span class="tree-check">${CHECK_SVG}</span>` +
+                `<span class="tree-type">${esc(node.type || "zone")}</span>` +
+                (node.param ? `<span class="tree-name">(${esc(node.param)})</span>` : "") +
+                `<span class="tree-id">#${esc(node.id)}</span>` +
+                (node.name ? `<span class="tree-name">'${esc(node.name)}'</span>` : "") +
+                (styleStr ? `<span class="tree-styles">${esc(styleStr)}</span>` : "");
+            row.onclick = () => toggleZone(node.id);
+            frag.appendChild(row);
+            (node.children || []).forEach(c => frag.appendChild(buildRow(c, depth + 1)));
+            return frag;
+        }
+
+        function toggleZone(id) {
+            if (selectedIds.has(id)) selectedIds.delete(id);
+            else selectedIds.add(id);
+            applySelection();
+        }
+
+        function syncZoneSelection() {
+            selectedIds = new Set(
+                document.getElementById("zoneIds").value.split(",").map(s => s.trim()).filter(Boolean)
+            );
+            renderActive();
+        }
+
+        function clearSelection() {
+            selectedIds = new Set();
+            document.getElementById("zoneIds").value = "";
+            renderActive();
+        }
+
+        function updateSelectionUI() {
+            const n = selectedIds.size;
+            const label = document.getElementById("sel-count");
+            if (label) label.innerHTML = n ? `Выбрано <b>${n}</b>` : "0 выбрано";
+            const clr = document.getElementById("clearBtn");
+            if (clr) clr.classList.toggle("hidden", n === 0);
+            const apply = document.getElementById("applyBtn");
+            if (apply) apply.disabled = n === 0;
+        }
+
+        /* ---------- Colors ---------- */
+        function syncColor(pickerId, textId) {
+            document.getElementById(textId).value = document.getElementById(pickerId).value.toUpperCase();
+        }
+        function syncPicker(textId, pickerId) {
+            const val = document.getElementById(textId).value;
+            if (/^#[0-9A-F]{6}$/i.test(val)) document.getElementById(pickerId).value = val;
+        }
+
+        /* ---------- API ---------- */
         async function uploadFile() {
             const fileInput = document.getElementById("fileInput");
-            if (fileInput.files.length === 0) {
-                showAlert("Пожалуйста, выберите файл .twb или .twbx");
-                return;
-            }
+            if (fileInput.files.length === 0) { showAlert("Выберите файл .twb или .twbx"); return; }
 
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
@@ -375,21 +980,24 @@
             try {
                 const response = await fetch("/upload", { method: "POST", body: formData });
                 const data = await response.json();
-
                 if (response.ok) {
                     uploadedFilename = data.filename;
+                    allDashboards = data.dashboards || {};
+                    selectedIds = new Set();
                     const select = document.getElementById("dashboardSelect");
                     select.innerHTML = "";
-                    
-                    for (const [dashName] of Object.entries(data.dashboards)) {
+                    for (const [dashName] of Object.entries(allDashboards)) {
                         const opt = document.createElement("option");
                         opt.value = dashName;
                         opt.innerText = dashName;
                         select.appendChild(opt);
                     }
-
+                    document.getElementById("zoneIds").value = "";
+                    mapZoom = 1; mapPanX = 0; mapPanY = 0;
                     document.getElementById("interactive-section").classList.remove("hidden");
-                    showAlert("Файл успешно загружен и проанализирован!", false);
+                    populateTypes();
+                    renderActive();
+                    showAlert("Файл проанализирован — найдено дашбордов: " + Object.keys(allDashboards).length, false);
                 } else {
                     showAlert(data.detail || "Ошибка загрузки");
                 }
@@ -400,48 +1008,36 @@
 
         async function uploadTextFile() {
             const fileInput = document.getElementById("fileInput");
-            if (fileInput.files.length === 0) {
-                showAlert("Сначала выберите файл в поле выше");
-                return;
-            }
+            if (fileInput.files.length === 0) { showAlert("Сначала выберите файл выше"); return; }
 
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
-            
+
             const textBox = document.getElementById("text-output-box");
-            textBox.innerText = "Генерация отчета...";
+            textBox.textContent = "Генерация отчёта…";
             textBox.classList.remove("hidden");
 
             try {
                 const response = await fetch("/upload_text", { method: "POST", body: formData });
                 const textResult = await response.text();
-
-                if (response.ok) {
-                    textBox.innerText = textResult;
-                } else {
-                    textBox.innerText = "Ошибка: " + textResult;
-                }
+                textBox.textContent = response.ok ? textResult : "Ошибка: " + textResult;
             } catch (err) {
-                textBox.innerText = "Ошибка соединения при запросе /upload_text";
+                textBox.textContent = "Ошибка соединения при запросе /upload_text";
             }
         }
 
         async function applyStyles() {
-            const zoneIdsRaw = document.getElementById("zoneIds").value;
-            const zoneIds = zoneIdsRaw.split(",").map(s => s.trim()).filter(Boolean);
+            const zoneIds = document.getElementById("zoneIds").value.split(",").map(s => s.trim()).filter(Boolean);
+            if (zoneIds.length === 0) { showAlert("Выберите хотя бы один контейнер"); return; }
 
-            if (zoneIds.length === 0) {
-                showAlert("Укажите хотя бы один ID контейнера");
-                return;
-            }
-
+            saveSettings();
             const payload = {
                 filename: uploadedFilename,
                 dashboard_name: document.getElementById("dashboardSelect").value,
                 zone_ids: zoneIds,
-                inner_padding: parseInt(document.getElementById("innerPadding").value) || null,
-                outer_padding: parseInt(document.getElementById("outerPadding").value) || null,
-                corner_radius: parseInt(document.getElementById("cornerRadius").value) || null,
+                inner_padding: numOrNull("innerPadding"),
+                outer_padding: numOrNull("outerPadding"),
+                corner_radius: numOrNull("cornerRadius"),
                 border_color: document.getElementById("borderColor").value || null,
                 background_color: document.getElementById("backgroundColor").value || null,
                 border_style: document.getElementById("borderStyle").value || null
@@ -453,7 +1049,6 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-
                 if (response.ok) {
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
@@ -463,19 +1058,59 @@
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
-                    showAlert("Стили применены, файл успешно скачивается!", false);
+                    window.URL.revokeObjectURL(url);
+                    showAlert("Стили применены — файл скачивается", false);
                 } else {
                     const err = await response.json();
                     let msg = err.detail;
-                    if (Array.isArray(err.detail)) {
-                        msg = err.detail.map(e => e.msg).join("; ");
-                    }
-                    showAlert("Ошибка валидации: " + msg);
+                    if (Array.isArray(err.detail)) msg = err.detail.map(e => e.msg).join("; ");
+                    showAlert("Ошибка: " + msg);
                 }
             } catch (err) {
                 showAlert("Ошибка при отправке запроса /modify");
             }
         }
+
+        /* ---------- Persist style settings ---------- */
+        const STYLE_FIELDS = ["innerPadding", "outerPadding", "cornerRadius", "borderColor", "backgroundColor", "borderStyle"];
+        function saveSettings() {
+            try {
+                const o = {};
+                STYLE_FIELDS.forEach(id => o[id] = document.getElementById(id).value);
+                localStorage.setItem("tsm.settings", JSON.stringify(o));
+            } catch (e) {}
+        }
+        function restoreSettings() {
+            try {
+                const o = JSON.parse(localStorage.getItem("tsm.settings") || "{}");
+                STYLE_FIELDS.forEach(id => {
+                    if (o[id] != null && o[id] !== "") {
+                        document.getElementById(id).value = o[id];
+                    }
+                });
+                syncPicker("borderColor", "borderColorPicker");
+                syncPicker("backgroundColor", "bgColorPicker");
+            } catch (e) {}
+        }
+
+        /* ---------- Init ---------- */
+        restoreSettings();
+        // Enter запускает анализ, пока файл выбран и секция ещё скрыта
+        window.addEventListener("keydown", e => {
+            if (e.key !== "Enter") return;
+            const tag = (e.target.tagName || "").toLowerCase();
+            if (tag === "input" && e.target.type === "text") return;
+            const btn = document.getElementById("analyzeBtn");
+            if (!btn.disabled && document.getElementById("interactive-section").classList.contains("hidden")) {
+                withLoading(btn, "Анализ…", uploadFile);
+            }
+        });
+        // Карта масштабируется под контейнер — перерисуем при ресайзе
+        let _rsz;
+        window.addEventListener("resize", () => {
+            clearTimeout(_rsz);
+            _rsz = setTimeout(() => { if (currentView === "map" && currentRoot()) renderMap(); }, 150);
+        });
     </script>
 </body>
 </html>

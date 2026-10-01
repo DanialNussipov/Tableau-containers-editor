@@ -4,7 +4,13 @@ from pathlib import Path
 
 def extract_twbx(twbx_path: Path, extract_dir: Path) -> Path:
     # Распаковывает .twbx архив во временную папку и возвращает путь к .twb файлу.
+    extract_dir = Path(extract_dir)
     with zipfile.ZipFile(twbx_path, 'r') as zip_ref:
+        dest = extract_dir.resolve()
+        # Защита от zip-slip: ни один путь не должен вылезать за пределы extract_dir
+        for member in zip_ref.namelist():
+            if not (dest / member).resolve().is_relative_to(dest):
+                raise ValueError(f"Небезопасный путь в архиве: {member}")
         zip_ref.extractall(extract_dir)
 
     # Ищем .twb файл внутри распакованной директории

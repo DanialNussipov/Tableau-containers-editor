@@ -8,13 +8,23 @@ def parse_zone(zone_element, parent_id=None):
     zone_id = zone_element.get('id')
     zone_type = zone_element.get('type-v2')
     name = zone_element.get('name', '')  # Имя есть не у всех зон, берем пустое если нет
-    param = zone_element.get('param', '')    
+    param = zone_element.get('param', '')
+
+    # Геометрия зоны в нормированных координатах дашборда (0..100000)
+    def _int(attr):
+        try:
+            return int(zone_element.get(attr, 0))
+        except (TypeError, ValueError):
+            return 0
+    geom = {"x": _int('x'), "y": _int('y'), "w": _int('w'), "h": _int('h')}
     
     # 1. Собираем стили контейнера (margin, padding, border и т.д.)
     styles = {}
     zone_style = zone_element.find('zone-style')
     if zone_style is not None:
-        for fmt in zone_style.findall('format|_.fcp.DashboardRoundedCorners.true...format'):
+        # Перебираем все дочерние теги: и <format>, и спец-тег скруглённых углов
+        # (findall с union 'a|b' в lxml не работает — возвращает пустоту).
+        for fmt in zone_style:
             attr = fmt.get('attr')
             value = fmt.get('value')
             if attr and value is not None:
@@ -27,6 +37,7 @@ def parse_zone(zone_element, parent_id=None):
         "name": name,
         "param": param,
         "parent_id": parent_id,
+        "geom": geom,
         "styles": styles,
         "children": []
     }
