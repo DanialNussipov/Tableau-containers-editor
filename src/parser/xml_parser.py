@@ -14,7 +14,9 @@ def parse_zone(zone_element, parent_id=None):
     styles = {}
     zone_style = zone_element.find('zone-style')
     if zone_style is not None:
-        for fmt in zone_style.findall('format|_.fcp.DashboardRoundedCorners.true...format'):
+        # Перебираем все дочерние теги: и <format>, и спец-тег скруглённых углов
+        # (findall с union 'a|b' в lxml не работает — возвращает пустоту).
+        for fmt in zone_style:
             attr = fmt.get('attr')
             value = fmt.get('value')
             if attr and value is not None:

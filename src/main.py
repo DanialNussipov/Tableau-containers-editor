@@ -3,6 +3,7 @@ import shutil
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request
 from fastapi.responses import FileResponse, PlainTextResponse, HTMLResponse
+from starlette.background import BackgroundTask
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 from typing import List, Optional, Literal
@@ -183,10 +184,12 @@ async def modify_file(request: ModifyRequest):
             media_type = 'application/xml'
             
         # Возвращаем файл пользователю как вложение для скачивания
+        # и удаляем готовый файл с диска после того, как он отправлен.
         return FileResponse(
-            path=output_path, 
+            path=output_path,
             filename=output_filename,
-            media_type=media_type
+            media_type=media_type,
+            background=BackgroundTask(lambda: output_path.unlink(missing_ok=True))
         )
     finally:
         # Гарантированное удаление временных файлов распаковки

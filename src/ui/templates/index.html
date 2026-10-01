@@ -2,107 +2,110 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Tableau Style Manager — Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tableau Style Manager</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --border-color: #334155;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
-            --accent: #06b6d4;
-            --success: #10b981;
-            --success-hover: #059669;
-            --danger-bg: rgba(239, 68, 68, 0.1);
-            --danger-border: rgba(239, 68, 68, 0.3);
-            --danger-text: #fca5a5;
-            --success-bg: rgba(16, 185, 129, 0.1);
-            --success-border: rgba(16, 185, 129, 0.3);
-            --success-text: #6ee7b7;
+            --bg: #f7f7f5;
+            --card-bg: #ffffff;
+            --border: #e9e9e7;
+            --border-strong: #d8d8d4;
+            --text: #37352f;
+            --text-muted: #787066;
+            --text-faint: #9b9589;
+            --primary: #2383e2;
+            --primary-hover: #0f74d4;
+            --primary-soft: rgba(35, 131, 226, 0.12);
+            --success: #0f9d58;
+            --success-hover: #0b8049;
+            --code-bg: #f1f0ee;
+            --code-text: #c0564b;
+            --danger-bg: #fdecea;
+            --danger-border: #f5c6c0;
+            --danger-text: #b4342a;
+            --ok-bg: #e7f5ec;
+            --ok-border: #bfe3cc;
+            --ok-text: #0b7a3e;
+            --radius: 10px;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 40px 20px;
+            padding: 48px 20px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
+            line-height: 1.5;
         }
 
         .container {
             width: 100%;
-            max-width: 850px;
+            max-width: 780px;
             background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 40px;
+            border: 1px solid var(--border);
+            padding: 44px 48px;
             border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 28px rgba(15, 15, 15, 0.06);
         }
 
         h1 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 700;
-            color: var(--text-main);
-            margin-top: 0;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            margin: 0 0 6px;
+            letter-spacing: -0.4px;
         }
 
         p.subtitle {
             color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 30px;
+            font-size: 14.5px;
+            margin: 0 0 32px;
         }
 
         h3 {
-            font-size: 18px;
-            color: var(--text-main);
-            margin-top: 0;
-            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 16px;
         }
 
-        .form-group {
-            margin-bottom: 22px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         label {
             display: block;
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 7px;
             font-size: 13px;
             color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        label code {
-            text-transform: none;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: var(--accent);
-            font-family: monospace;
+        label code, code {
+            background: var(--code-bg);
+            padding: 1.5px 6px;
+            border-radius: 5px;
+            color: var(--code-text);
+            font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+            font-size: 12px;
         }
 
         input[type="text"], input[type="file"], select {
             width: 100%;
-            padding: 12px 16px;
-            background-color: #0f172a;
-            border: 1px solid var(--border-color);
+            padding: 11px 14px;
+            background-color: #fff;
+            border: 1px solid var(--border-strong);
             border-radius: 8px;
-            color: var(--text-main);
+            color: var(--text);
             font-size: 14px;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
+            font-family: inherit;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
 
-        /* Стиль для инпута выбора цвета */
+        input[type="text"]::placeholder { color: var(--text-faint); }
+
         .color-picker-wrapper {
             display: flex;
             gap: 8px;
@@ -111,147 +114,171 @@
 
         input[type="color"] {
             -webkit-appearance: none;
-            border: 1px solid var(--border-color);
+            appearance: none;
+            border: 1px solid var(--border-strong);
             border-radius: 8px;
-            width: 48px;
-            height: 44px;
+            width: 46px;
+            height: 42px;
             padding: 4px;
-            background: #0f172a;
+            background: #fff;
             cursor: pointer;
+            flex-shrink: 0;
         }
-
-        input[type="color"]::-webkit-color-swatch-wrapper {
-            padding: 0;
-        }
-
-        input[type="color"]::-webkit-color-swatch {
-            border: none;
-            border-radius: 6px;
-        }
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch { border: none; border-radius: 5px; }
 
         input[type="file"] {
-            padding: 10px;
+            padding: 9px 12px;
             cursor: pointer;
             color: var(--text-muted);
         }
+        input[type="file"]::file-selector-button {
+            border: 1px solid var(--border-strong);
+            background: var(--bg);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-right: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+        }
+        input[type="file"]::file-selector-button:hover { background: #efefed; }
 
-        input[type="text"]:focus, select:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 0 3px var(--primary-soft);
         }
 
-        .row {
-            display: flex;
-            gap: 16px;
-        }
-
-        .col {
-            flex: 1;
-        }
+        .row { display: flex; gap: 16px; }
+        .col { flex: 1; min-width: 0; }
 
         button {
             background-color: var(--primary);
             color: #fff;
             border: none;
-            padding: 12px 20px;
+            padding: 11px 18px;
             border-radius: 8px;
             font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
             cursor: pointer;
             width: 100%;
-            font-weight: 600;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.15s, transform 0.08s;
         }
-
-        button:hover {
-            background-color: var(--primary-hover);
-        }
-
-        button:active {
-            transform: scale(0.99);
-        }
+        button:hover { background-color: var(--primary-hover); }
+        button:active { transform: scale(0.99); }
 
         .btn-secondary {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
+            background-color: #fff;
+            border: 1px solid var(--border-strong);
+            color: var(--text);
         }
+        .btn-secondary:hover { background-color: var(--bg); border-color: var(--text-faint); }
 
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-color: var(--text-muted);
-        }
+        .btn-success { background-color: var(--success); }
+        .btn-success:hover { background-color: var(--success-hover); }
 
-        .btn-success {
-            background-color: var(--success);
-        }
-
-        .btn-success:hover {
-            background-color: var(--success-hover);
-        }
-
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
 
         .alert {
-            padding: 14px 16px;
+            padding: 13px 16px;
             border-radius: 8px;
             margin-bottom: 24px;
             font-size: 14px;
-            display: flex;
-            align-items: center;
         }
-
         .alert-error {
             background-color: var(--danger-bg);
             color: var(--danger-text);
             border: 1px solid var(--danger-border);
         }
-
         .alert-success {
-            background-color: var(--success-bg);
-            color: var(--success-text);
-            border: 1px solid var(--success-border);
+            background-color: var(--ok-bg);
+            color: var(--ok-text);
+            border: 1px solid var(--ok-border);
         }
 
         .console-box {
-            background-color: #0b0f19;
-            color: #38bdf8;
+            background-color: #fbfbfa;
+            color: var(--text);
             padding: 16px;
             border-radius: 8px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
             white-space: pre-wrap;
             margin-bottom: 20px;
-            max-height: 280px;
+            max-height: 320px;
             overflow-y: auto;
-            font-size: 12px;
-            line-height: 1.5;
+            font-size: 12.5px;
+            line-height: 1.55;
         }
-
-        .console-box::-webkit-scrollbar {
-            width: 6px;
-        }
-        .console-box::-webkit-scrollbar-track {
-            background: #0b0f19;
-        }
-        .console-box::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
-        }
+        .console-box::-webkit-scrollbar { width: 8px; }
+        .console-box::-webkit-scrollbar-track { background: transparent; }
+        .console-box::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
 
         hr {
             border: 0;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
             margin: 30px 0;
+        }
+
+        .tree-box {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 6px;
+            max-height: 360px;
+            overflow: auto;
+            background: #fbfbfa;
+            margin-bottom: 10px;
+        }
+        .tree-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+        .tree-row:hover { background: #f0f0ee; }
+        .tree-row.selected { background: var(--primary-soft); }
+        .tree-check {
+            width: 16px; height: 16px;
+            border: 1.5px solid var(--border-strong);
+            border-radius: 5px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px; line-height: 1;
+            color: #fff;
+        }
+        .tree-row.selected .tree-check { background: var(--primary); border-color: var(--primary); }
+        .tree-type { font-weight: 600; }
+        .tree-id, .tree-styles {
+            font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+        }
+        .tree-id { color: var(--text-faint); }
+        .tree-name { color: var(--text-muted); }
+        .tree-styles {
+            color: var(--text-faint);
+            font-size: 11.5px;
+            margin-left: auto;
+            padding-left: 14px;
+        }
+
+        @media (max-width: 560px) {
+            .container { padding: 28px 22px; }
+            .row { flex-direction: column; gap: 0; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎨 Tableau Dashboard Style Manager</h1>
-        <p class="subtitle">Интерфейс управления стилями, анализа иерархий и обработки XML-контейнеров .twb и .twbx</p>
+        <h1>🎨 Tableau Style Manager</h1>
+        <p class="subtitle">Анализ иерархий и пакетное редактирование стилей контейнеров в файлах .twb и .twbx</p>
 
         <div id="alert-box" class="alert hidden"></div>
 
@@ -274,19 +301,24 @@
         <!-- Интерактивная секция для модификации -->
         <div id="interactive-section" class="hidden">
             <hr>
-            
+
             <div class="form-group">
                 <label>Выберите целевой дашборд</label>
-                <select id="dashboardSelect"></select>
+                <select id="dashboardSelect" onchange="selectedIds = new Set(); document.getElementById('zoneIds').value = ''; renderTree();"></select>
             </div>
 
             <hr>
 
             <h3>Пакетное изменение стилей <code>POST /modify</code></h3>
-            
+
             <div class="form-group">
-                <label>ID контейнеров (через запятую)</label>
-                <input type="text" id="zoneIds" placeholder="например: 2, 39, 105">
+                <label>Контейнеры дашборда — кликните, чтобы выбрать</label>
+                <div id="tree-box" class="tree-box"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Выбранные ID (можно править вручную)</label>
+                <input type="text" id="zoneIds" placeholder="например: 2, 39, 105" oninput="syncZoneSelection()">
             </div>
 
             <div class="row">
@@ -342,6 +374,56 @@
 
     <script>
         let uploadedFilename = "";
+        let allDashboards = {};
+        let selectedIds = new Set();
+
+        function esc(s) {
+            const d = document.createElement("div");
+            d.textContent = s == null ? "" : s;
+            return d.innerHTML;
+        }
+
+        function renderTree() {
+            const box = document.getElementById("tree-box");
+            const root = allDashboards[document.getElementById("dashboardSelect").value];
+            box.innerHTML = "";
+            if (root) box.appendChild(buildRow(root, 0));
+        }
+
+        function buildRow(node, depth) {
+            const frag = document.createDocumentFragment();
+            const row = document.createElement("div");
+            const isSel = selectedIds.has(node.id);
+            row.className = "tree-row" + (isSel ? " selected" : "");
+            row.style.paddingLeft = (8 + depth * 18) + "px";
+            const styleStr = Object.entries(node.styles || {}).map(([k, v]) => `${k}=${v}`).join(", ");
+            row.innerHTML =
+                `<span class="tree-check">${isSel ? "✓" : ""}</span>` +
+                `<span class="tree-type">${esc(node.type || "zone")}</span>` +
+                (node.param ? `<span class="tree-name">(${esc(node.param)})</span>` : "") +
+                `<span class="tree-id">#${esc(node.id)}</span>` +
+                (node.name ? `<span class="tree-name">'${esc(node.name)}'</span>` : "") +
+                (styleStr ? `<span class="tree-styles">${esc(styleStr)}</span>` : "");
+            row.onclick = () => toggleZone(node.id);
+            frag.appendChild(row);
+            (node.children || []).forEach(c => frag.appendChild(buildRow(c, depth + 1)));
+            return frag;
+        }
+
+        function toggleZone(id) {
+            if (selectedIds.has(id)) selectedIds.delete(id);
+            else selectedIds.add(id);
+            document.getElementById("zoneIds").value = [...selectedIds].join(", ");
+            renderTree();
+        }
+
+        // Когда ID правят вручную в текстовом поле — обновляем подсветку дерева
+        function syncZoneSelection() {
+            selectedIds = new Set(
+                document.getElementById("zoneIds").value.split(",").map(s => s.trim()).filter(Boolean)
+            );
+            renderTree();
+        }
 
         // Синхронизация между палитрой и текстовым полем
         function syncColor(pickerId, textId) {
@@ -378,16 +460,20 @@
 
                 if (response.ok) {
                     uploadedFilename = data.filename;
+                    allDashboards = data.dashboards || {};
+                    selectedIds = new Set();
                     const select = document.getElementById("dashboardSelect");
                     select.innerHTML = "";
-                    
-                    for (const [dashName] of Object.entries(data.dashboards)) {
+
+                    for (const [dashName] of Object.entries(allDashboards)) {
                         const opt = document.createElement("option");
                         opt.value = dashName;
                         opt.innerText = dashName;
                         select.appendChild(opt);
                     }
 
+                    document.getElementById("zoneIds").value = "";
+                    renderTree();
                     document.getElementById("interactive-section").classList.remove("hidden");
                     showAlert("Файл успешно загружен и проанализирован!", false);
                 } else {
@@ -407,7 +493,7 @@
 
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
-            
+
             const textBox = document.getElementById("text-output-box");
             textBox.innerText = "Генерация отчета...";
             textBox.classList.remove("hidden");
