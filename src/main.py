@@ -1,4 +1,5 @@
 import uuid
+import time
 import shutil
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request
@@ -28,6 +29,22 @@ async def read_index(request: Request):
 TEMP_DIR = Path("temp")
 TEMP_DIR.mkdir(exist_ok=True)
 
+
+def sweep_temp(max_age_sec: int = 3600):
+    """Удаляет из temp/ файлы и папки старше max_age_sec.
+    ponytail: наивный sweep по mtime; хватает для одиночного инструмента."""
+    now = time.time()
+    for p in TEMP_DIR.iterdir():
+        try:
+            if now - p.stat().st_mtime <= max_age_sec:
+                continue
+            shutil.rmtree(p, ignore_errors=True) if p.is_dir() else p.unlink(missing_ok=True)
+        except OSError:
+            pass
+
+
+sweep_temp()  # чистка при старте
+
 # Pydantic-схема для запроса на изменение (без проблемного валидатора)
 class ModifyRequest(BaseModel):
     filename: str = Field(..., description="Имя ранее загруженного файла")
@@ -48,13 +65,14 @@ async def upload_file_text_view(file: UploadFile = File(...)):
     """
     if not file.filename.endswith(('.twb', '.twbx')):
         raise HTTPException(status_code=400, detail="Поддерживаемые файлы только .twb и .twbx")
-        
+
+    sweep_temp()
     file_path = TEMP_DIR / file.filename
-    
+
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    extract_dir = None    
+    extract_dir = None
     try:
         # Если это .twbx -> распаковываем во временную папку
         if file.filename.endswith('.twbx'):
@@ -88,9 +106,10 @@ async def upload_file(file: UploadFile = File(...)):
     """Принимает .twb/.twbx файл, сохраняет его и возвращает древовидную иерархию дашбордов."""
     if not file.filename.endswith(('.twb', '.twbx')):
         raise HTTPException(status_code=400, detail="Поддерживаемые файлы только .twb и .twbx")
-        
+
+    sweep_temp()
     file_path = TEMP_DIR / file.filename
-    
+
     # Сохраняем загруженный файл
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
@@ -144,7 +163,7 @@ async def modify_file(request: ModifyRequest):
                 )
 
             # 4. Применяем стили прямо к извлеченному .twb (перезаписываем его)
-            modify_dashboard_styles(
+            changed = modify_dashboard_styles(
                 input_file_path=str(twb_path),
                 output_file_path=str(twb_path),
                 dashboard_name=request.dashboard_name,
@@ -156,7 +175,9 @@ async def modify_file(request: ModifyRequest):
                 border_style=request.border_style,
                 background_color=request.background_color
             )
-            
+            if not changed:
+                raise HTTPException(status_code=400, detail="Ни один контейнер не изменён: проверьте выбранный дашборд и ID.")
+
             # 5. Собираем всё содержимое обратно в новый .twbx архив
             pack_twbx(extract_dir, output_path)
             media_type = 'application/zip'
@@ -169,7 +190,7 @@ async def modify_file(request: ModifyRequest):
                     detail=f"Параметр 'corner_radius' не поддерживается (версия Tableau {current_version}, требуется >= 2026). Поставьте значение 0."
                 )
             
-            modify_dashboard_styles(
+            changed = modify_dashboard_styles(
                 input_file_path=str(input_path),
                 output_file_path=str(output_path),
                 dashboard_name=request.dashboard_name,
@@ -181,6 +202,9 @@ async def modify_file(request: ModifyRequest):
                 border_style=request.border_style,
                 background_color=request.background_color
             )
+            if not changed:
+                output_path.unlink(missing_ok=True)
+                raise HTTPException(status_code=400, detail="Ни один контейнер не изменён: проверьте выбранный дашборд и ID.")
             media_type = 'application/xml'
             
         # Возвращаем файл пользователю как вложение для скачивания
